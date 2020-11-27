@@ -29,10 +29,11 @@ exports.lambdaHandler = async (event, context) => {
 function getUser(cognitoId) {
   var params = {    
     ExpressionAttributeValues: {
+      ":theId": { S: "" },
       ":cognitoId": { S: cognitoId },
     },
     ProjectionExpression: 'cognitoId, email, subscription, createdAt, id',
-    KeyConditionExpression: "id <> null AND cognitoId = :cognitoId",
+    KeyConditionExpression: "size(id) > 0 AND cognitoId = :cognitoId",
     TableName: process.env.TABLE_NAME
   };
 
